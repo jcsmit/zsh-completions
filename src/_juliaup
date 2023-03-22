@@ -1,0 +1,37 @@
+#compdef juliaup
+
+__juliaup_commands () {
+    local -a list
+
+    list=(
+        default:'Set the default Julia version'
+        add:'Add a specific Julia version or channel to your system'
+        list:'List all available channels'
+        update:'Update all or a specific channel to the latest Julia version'
+        remove:'Remove a Julia version from your system'
+        status:'Show all installed Julia versions'
+        gc:'Garbage collect uninstalled Julia versions'
+        config:'Juliaup configuration'
+        self:'Manage this juliaup installation'
+        help:'Print help message or the help of the given subcommand(s)'
+    )
+    _describe -t commands 'juliaup commands' list && ret=0
+}
+
+_juliaup () {
+    local ret=1 state
+
+    _arguments \
+        '(- :)--help[Print help information]' \
+        '(- :)--version[Print version information]' \
+        '(-): :->command' && return
+    
+    case $state in
+        command)
+            __juliaup_commands
+    esac
+
+    return _ret
+}
+
+_juliaup
